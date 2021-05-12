@@ -1,26 +1,7 @@
-USE master
-GO
--- If the database doesn't exist create a new one
-IF NOT EXISTS (
-	SELECT name
-	FROM sys.databases
-	WHERE name = 'Instagram_Database_Clone'
-)
-BEGIN
-CREATE DATABASE Instagram_Database_Clone
-END
-GO
-
-USE Instagram_Database_Clone
-GO
-
--- DROP TABLE Before creating
-IF OBJECT_ID('users', 'u') IS NOT NULL
-DROP TABLE users
-GO
-IF OBJECT_ID('photos', 'u') IS NOT NULL
-DROP TABLE photos
-GO
+-- DROP Database before create
+DROP DATABASE IF EXISTS ig_clone;
+CREATE DATABASE ig_clone;
+USE ig_clone; 
 
 -- Create Tables -- 
 CREATE TABLE users
@@ -91,23 +72,6 @@ CREATE TABLE photo_tags
 
 
 -- INSERT STATEMENTS ------------------
-INSERT INTO users (username) VALUES ('bambam'),('mark'),('jackson');
-INSERT INTO photos (image_url, user_id) VALUES ('/asdfsadf',1),('/afdfdf',2),('/sdasaf',3)
-INSERT INTO comments (comment_text, user_id, photo_id) VALUES ('Good shot!', 1, 2),('Nice photo!', 3, 2),('Hi Mark!', 3, 2);
-INSERT INTO likes (user_id, photo_id) VALUES (1,1),(2,1),(1,2),(1,3),(3,3);
--- This won't work because of primary key constraint
--- INSERT INTO likes (user_id, photo_id) VALUES (1,1);
-INSERT INTO follows (follower_id, followee_id) VALUES (1,2),(1,3),(2,1),(2,3);
-INSERT INTO tags (tag_name) VALUES ('food'),('cat'),('travel');
-INSERT INTO photo_tags(photo_id,tag_id) VALUES (1,1),(1,2),(1,3),(2,3);
-
-
-
-
-
-
-
-
 
 
 
