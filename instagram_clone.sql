@@ -50,15 +50,25 @@ CREATE TABLE comments
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- INSERT users
+CREATE TABLE likes
+(
+	-- No need for id because likes table is not being reference anyway
+	user_id INT NOT NULL,
+		FOREIGN KEY(user_id) REFERENCES users(id),
+	photo_id INT NOT NULL,
+		FOREIGN KEY(photo_id) REFERENCES photos(id),
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+	-- This will not allow user to insert more than 1 like with the same user_id and photo_id
+	PRIMARY KEY (user_id, photo_id)
+);
+
+-- INSERT STATEMENTS ------------------
 INSERT INTO users (username) VALUES ('bambam'),('mark'),('jackson');
-
--- INSERT photo
 INSERT INTO photos (image_url, user_id) VALUES ('/asdfsadf',1),('/afdfdf',2),('/sdasaf',3)
-
--- INSERT comments
 INSERT INTO comments (comment_text, user_id, photo_id) VALUES ('Good shot!', 1, 2),('Nice photo!', 3, 2),('Hi Mark!', 3, 2);
-
+INSERT INTO likes (user_id, photo_id) VALUES (1,1),(2,1),(1,2),(1,3),(3,3);
+-- This won't work because of primary key constraint
+-- INSERT INTO likes (user_id, photo_id) VALUES (1,1);
 
 
 
