@@ -62,6 +62,34 @@ CREATE TABLE likes
 	PRIMARY KEY (user_id, photo_id)
 );
 
+CREATE TABLE follows
+(
+	follower_id INT NOT NULL,
+		FOREIGN KEY (follower_id) REFERENCES users(id),
+	followee_id INT NOT NULL,
+		FOREIGN KEY (followee_id) REFERENCES users(id),
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (follower_id, followee_id)
+);
+
+CREATE TABLE tags
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	tag_name VARCHAR(255) UNIQUE,
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE photo_tags
+(
+	photo_id INT NOT NULL,
+		FOREIGN KEY (photo_id) REFERENCES photos(id),
+	tag_id INT NOT NULL,
+		FOREIGN KEY (tag_id) REFERENCES tags(id),
+	PRIMARY KEY(photo_id, tag_id)
+);
+
+
+
 -- INSERT STATEMENTS ------------------
 INSERT INTO users (username) VALUES ('bambam'),('mark'),('jackson');
 INSERT INTO photos (image_url, user_id) VALUES ('/asdfsadf',1),('/afdfdf',2),('/sdasaf',3)
@@ -69,8 +97,9 @@ INSERT INTO comments (comment_text, user_id, photo_id) VALUES ('Good shot!', 1, 
 INSERT INTO likes (user_id, photo_id) VALUES (1,1),(2,1),(1,2),(1,3),(3,3);
 -- This won't work because of primary key constraint
 -- INSERT INTO likes (user_id, photo_id) VALUES (1,1);
-
-
+INSERT INTO follows (follower_id, followee_id) VALUES (1,2),(1,3),(2,1),(2,3);
+INSERT INTO tags (tag_name) VALUES ('food'),('cat'),('travel');
+INSERT INTO photo_tags(photo_id,tag_id) VALUES (1,1),(1,2),(1,3),(2,3);
 
 
 
