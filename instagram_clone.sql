@@ -18,11 +18,48 @@ GO
 IF OBJECT_ID('users', 'u') IS NOT NULL
 DROP TABLE users
 GO
+IF OBJECT_ID('photos', 'u') IS NOT NULL
+DROP TABLE photos
+GO
 
 -- Create Tables -- 
 CREATE TABLE users
 (
-	id UNIQUEIDENTIFIER PRIMARY KEY,
+	id INT IDENTITY(1,1) PRIMARY KEY,
 	username VARCHAR(255) UNIQUE NOT NULL,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE photos
+(
+	id INT IDENTITY(1,1) PRIMARY KEY,
+	image_url VARCHAR(255) NOT NULL,
+	user_id INT NOT NULL,
+		FOREIGN KEY(user_id) REFERENCES users(id),
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+);
+
+-- INSERT users
+INSERT INTO users (username) VALUES ('bambam'),('mark'),('jackson');
+
+-- INSERT photo
+INSERT INTO photos (image_url, user_id) VALUES ('/asdfsadf',1),('/afdfdf',2),('/sdasaf',3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- SELECT STATEMENTS ------------------
+--SELECT photos.image_url, users.username
+--FROM photos
+--JOIN users	
+--	ON photos.user_id = users.id;
