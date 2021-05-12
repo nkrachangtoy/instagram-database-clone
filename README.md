@@ -1,5 +1,5 @@
 # Instagram Database Clone
 
-## Database Diagram
+## ERD
 
-![ERD](https://i.imgur.com/1spGLXJ.png)
+![ERD](https://i.imgur.com/QL7Rl2F.png)
