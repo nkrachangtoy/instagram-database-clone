@@ -81,5 +81,100 @@ INSERT INTO photo_tags(photo_id, tag_id) VALUES (1, 18), (1, 17), (1, 21), (1, 1
 
 
 
-
 -- SELECT STATEMENTS ------------------
+-- CHALLENGES -------------------------
+-- Find 5 oldest users
+SELECT *
+FROM users
+ORDER BY created_at
+LIMIT 5;
+
+-- Most popular registration date
+SELECT 
+	DAYNAME(created_at) AS day, 
+	COUNT(*) AS total  
+FROM users 
+GROUP by day 
+ORDER BY total DESC;
+
+-- Find inactive users (Signed up but never posted a photo)
+SELECT username
+FROM users
+LEFT JOIN photos 
+	ON users.id = photos.user_id
+WHERE photos.id IS NULL;
+
+-- OR --
+
+SELECT username
+FROM photos
+RIGHT JOIN users
+	ON users.id = photos.user_id
+WHERE photos.id IS NULL;
+
+-- Find the most popular photo and user who posted it
+-- This will get all the photos with total likes
+SELECT
+	photos.id, 
+	photos.image_url, 
+	COUNT(*) as Total
+FROM photos
+INNER JOIN likes
+	ON likes.photo_id = photos.id
+GROUP BY photos.id;
+
+-- This will get the photo with the most number of likes
+SELECT
+	photos.id, 
+	photos.image_url, 
+	COUNT(*) as Total
+FROM photos
+INNER JOIN likes
+	ON likes.photo_id = photos.id
+GROUP BY photos.id
+ORDER BY Total DESC
+LIMIT 1;
+
+-- This will identify the username that posted the photo
+SELECT
+	username,
+	photos.id AS PhotoId, 
+	photos.image_url, 
+	COUNT(*) as Total
+FROM photos
+INNER JOIN likes
+	ON likes.photo_id = photos.id
+INNER JOIN users
+	ON photos.user_id = users.id
+GROUP BY photos.id
+ORDER BY Total DESC
+LIMIT 1;
+
+-- Calculate average number of photos per user
+-- total number of photos / total number of users
+-- Using sub query
+SELECT
+	(SELECT COUNT(*) FROM photos) / (SELECT COUNT(*) FROM users) AS avg;
+
+-- Find five most commonly used hashtags
+SELECT 
+	tags.tag_name,
+	COUNT(*) AS total
+FROM photo_tags
+JOIN tags
+	ON photo_tags.tag_id = tags.id
+GROUP BY tags.id
+ORDER BY total DESC
+LIMIT 5;
+
+-- Find bots - user who liked every single photo
+SELECT 
+	username,
+	COUNT(*) AS total
+FROM users
+INNER JOIN likes
+	ON users.id = likes.user_id
+GROUP BY likes.user_id
+-- HAVING acts like WHERE but it takes our end result from GROUP BY data
+-- and filter it
+HAVING total = (SELECT COUNT(*) FROM photos);
