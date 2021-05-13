@@ -1,10 +1,20 @@
-# Instagram Database Clone using MySQL
+# Instagram Clone
 
-A Instagram database clone with sample data.
+Re-building a Instagram clone using ASP.NET Core 3.0 as the Backend, React as Frontend, and MySQL as the database.
+
+## Goals
+
+[x] Build Database with MySQL
+
+[ ] Build RESTful API with .NET Core 3.0
+
+[ ] Build Frontend with React
 
 ## Requirement
 
 - [MySQL](https://dev.mysql.com/downloads/)
+- ASP.NET 3.0
+- React
 
 ## Diagram
 
